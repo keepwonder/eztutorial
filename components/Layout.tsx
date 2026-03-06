@@ -21,7 +21,8 @@ export default function Layout({ children, title, description }: LayoutProps) {
         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>" />
       </Head>
 
-      {/* Header */}
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -84,6 +85,7 @@ export default function Layout({ children, title, description }: LayoutProps) {
           </div>
         </div>
       </footer>
+      </div>
     </>
   )
 }
