@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><title>Next.js 开发最佳实践 | EzTutorial - 个人技术博客</title><meta name="description" content="总结 Next.js 14 开发中的最佳实践，包括 App Router、Server Components、数据获取等核心概念。"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 100 100&#x27;&gt;&lt;text y=&#x27;.9em&#x27; font-size=&#x27;90&#x27;&gt;📖&lt;/text&gt;&lt;/svg&gt;"/><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" async=""></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/><meta name="next-head-count" content="7"/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/_next/static/chunks/webpack-8fa1640cc84ba8fe.js" defer=""></script><script src="/_next/static/chunks/framework-64ad27b21261a9ce.js" defer=""></script><script src="/_next/static/chunks/main-5b2299ded1a46c83.js" defer=""></script><script src="/_next/static/chunks/pages/_app-5810f0a972a88d88.js" defer=""></script><script src="/_next/static/chunks/996-80bd74c565659df8.js" defer=""></script><script src="/_next/static/chunks/512-6850a4b04684f09c.js" defer=""></script><script src="/_next/static/chunks/pages/posts/%5Bslug%5D-4380530e5483b3d1.js" defer=""></script><script src="/_next/static/HeyJRd0p1IdXc1nA04_r6/_buildManifest.js" defer=""></script><script src="/_next/static/HeyJRd0p1IdXc1nA04_r6/_ssgManifest.js" defer=""></script></head><body><div id="__next"><header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200"><div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8"><div class="flex items-center justify-between h-16"><a class="flex items-center gap-3" href="/"><div class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center text-white text-2xl">📖</div><span class="text-xl font-bold text-slate-800">EzTutorial</span></a><nav class="hidden md:flex items-center gap-6"><a class="text-slate-600 hover:text-yellow-600 transition-colors" href="/">首页</a><a class="text-slate-600 hover:text-yellow-600 transition-colors" href="/categories/">分类</a><a class="text-slate-600 hover:text-yellow-600 transition-colors" href="/tags/">标签</a><a class="text-slate-600 hover:text-yellow-600 transition-colors" href="/archive/">归档</a></nav><div class="flex items-center gap-3"><a href="https://keepwonder.top" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-500 hover:text-yellow-600 transition-colors">主页 →</a></div></div></div></header><main class="flex-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"><article class="max-w-4xl mx-auto"><header class="bg-white rounded-2xl p-8 border border-slate-200 mb-8"><div class="flex flex-wrap items-center gap-3 mb-4"><a class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium hover:bg-yellow-200 transition-colors" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a><a class="text-sm text-slate-500 hover:text-yellow-600 transition-colors" href="/tags/nextjs/">#<!-- -->nextjs</a><a class="text-sm text-slate-500 hover:text-yellow-600 transition-colors" href="/tags/react/">#<!-- -->react</a><a class="text-sm text-slate-500 hover:text-yellow-600 transition-colors" href="/tags/frontend/">#<!-- -->frontend</a></div><h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Next.js 开发最佳实践</h1><div class="flex flex-wrap items-center gap-4 text-sm text-slate-500"><span>发布于 <!-- -->2026年03月05日</span><span>·</span><span>1<!-- --> 分钟阅读</span><span>·</span><span>更新于 <!-- -->2026年03月06日</span></div></header><div class="bg-white rounded-2xl p-8 border border-slate-200"><div class="prose prose-slate max-w-none"><h1>Next.js 开发最佳实践</h1>
+<p>Next.js 14 带来了许多激动人心的特性。</p>
+<h2>App Router</h2>
+<p>App Router 是 Next.js 13+ 推荐的 routing 方案。</p>
+<h3>核心概念</h3>
+<pre><code class="language-typescript">// app/page.tsx
+export default function Home() {
+  return &#x3C;h1>Hello Next.js!&#x3C;/h1>
+}
+</code></pre>
+<h2>Server Components</h2>
+<p>默认情况下，Next.js 的组件都是 Server Components。</p>
+<h3>优势</h3>
+<ul>
+<li>减少客户端 JavaScript</li>
+<li>直接访问后端资源</li>
+<li>更好的性能</li>
+</ul>
+<h3>使用 Client Components</h3>
+<p>当需要使用浏览器 API 或 React hooks 时：</p>
+<pre><code class="language-typescript">'use client'
+
+import { useState } from 'react'
+
+export default function Counter() {
+  const [count, setCount] = useState(0)
+  return &#x3C;button onClick={() => setCount(c + 1)}>{count}&#x3C;/button>
+}
+</code></pre>
+<h2>数据获取</h2>
+<h3>Server Components 中获取数据</h3>
+<pre><code class="language-typescript">async function getData() {
+  const res = await fetch('https://api.example.com/data')
+  return res.json()
+}
+
+export default async function Page() {
+  const data = await getData()
+  return &#x3C;div>{data.title}&#x3C;/div>
+}
+</code></pre>
+<h2>部署</h2>
+<p>推荐使用 Vercel 进行部署：</p>
+<pre><code class="language-bash">vercel --prod
+</code></pre>
+<h2>总结</h2>
+<p>Next.js 14 是现代 React 应用的首选框架。</p>
+</div></div><div class="mt-8 flex justify-between"><a class="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors" href="/">← 返回首页</a><a class="px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-600 transition-colors" href="/archive/">浏览更多文章</a></div></article><script>
+          document.addEventListener('DOMContentLoaded', function() {
+            if (typeof hljs !== 'undefined') {
+              hljs.highlightAll();
+            }
+          });
+        </script></main><footer class="bg-white border-t border-slate-200 mt-12"><div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8"><div class="flex flex-col sm:flex-row items-center justify-between gap-4"><div class="flex items-center gap-3"><div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-lg">📖</div><span class="text-slate-600 text-sm">EzTutorial - 个人技术博客</span></div><div class="flex items-center gap-6 text-sm text-slate-500"><a class="hover:text-yellow-600 transition-colors" href="/">首页</a><a href="https://keepwonder.top" target="_blank" class="hover:text-yellow-600 transition-colors">主页</a><span>© 2026</span></div></div></div></footer></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"slug":"nextjs-best-practices","id":"nextjs-best-practices","content":"\u003ch1\u003eNext.js 开发最佳实践\u003c/h1\u003e\n\u003cp\u003eNext.js 14 带来了许多激动人心的特性。\u003c/p\u003e\n\u003ch2\u003eApp Router\u003c/h2\u003e\n\u003cp\u003eApp Router 是 Next.js 13+ 推荐的 routing 方案。\u003c/p\u003e\n\u003ch3\u003e核心概念\u003c/h3\u003e\n\u003cpre\u003e\u003ccode class=\"language-typescript\"\u003e// app/page.tsx\nexport default function Home() {\n  return \u0026#x3C;h1\u003eHello Next.js!\u0026#x3C;/h1\u003e\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003eServer Components\u003c/h2\u003e\n\u003cp\u003e默认情况下，Next.js 的组件都是 Server Components。\u003c/p\u003e\n\u003ch3\u003e优势\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003e减少客户端 JavaScript\u003c/li\u003e\n\u003cli\u003e直接访问后端资源\u003c/li\u003e\n\u003cli\u003e更好的性能\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003e使用 Client Components\u003c/h3\u003e\n\u003cp\u003e当需要使用浏览器 API 或 React hooks 时：\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-typescript\"\u003e'use client'\n\nimport { useState } from 'react'\n\nexport default function Counter() {\n  const [count, setCount] = useState(0)\n  return \u0026#x3C;button onClick={() =\u003e setCount(c + 1)}\u003e{count}\u0026#x3C;/button\u003e\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e数据获取\u003c/h2\u003e\n\u003ch3\u003eServer Components 中获取数据\u003c/h3\u003e\n\u003cpre\u003e\u003ccode class=\"language-typescript\"\u003easync function getData() {\n  const res = await fetch('https://api.example.com/data')\n  return res.json()\n}\n\nexport default async function Page() {\n  const data = await getData()\n  return \u0026#x3C;div\u003e{data.title}\u0026#x3C;/div\u003e\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e部署\u003c/h2\u003e\n\u003cp\u003e推荐使用 Vercel 进行部署：\u003c/p\u003e\n\u003cpre\u003e\u003ccode class=\"language-bash\"\u003evercel --prod\n\u003c/code\u003e\u003c/pre\u003e\n\u003ch2\u003e总结\u003c/h2\u003e\n\u003cp\u003eNext.js 14 是现代 React 应用的首选框架。\u003c/p\u003e\n","readingTime":1,"title":"Next.js 开发最佳实践","date":"2026-03-05","modified":"2026-03-06","category":"技术","tags":["nextjs","react","frontend"],"excerpt":"总结 Next.js 14 开发中的最佳实践，包括 App Router、Server Components、数据获取等核心概念。"}},"__N_SSG":true},"page":"/posts/[slug]","query":{"slug":"nextjs-best-practices"},"buildId":"HeyJRd0p1IdXc1nA04_r6","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>

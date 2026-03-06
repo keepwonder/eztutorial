@@ -1,5 +1,5 @@
-import Layout from '../../components/Layout'
-import { getAllPosts } from '../../lib/posts'
+import Layout from '../components/Layout'
+import { getAllPosts } from '../lib/posts'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
