@@ -39,7 +39,7 @@ export function getAllPosts(): Post[] {
         slug: id,
         content,
         readingTime,
-        ...(matterResult.data as Omit<Post, 'id' | 'content' | 'readingTime'>),
+        ...(matterResult.data as Omit<Post, 'id' | 'slug' | 'content' | 'readingTime'>),
       } as Post
     })
 
