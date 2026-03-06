@@ -47,10 +47,10 @@ export default function CategoryPage({ category, posts, categories }: CategoryPa
 }
 
 export async function getStaticPaths() {
-  const categories = getAllCategories()
+  const categories = getAllCategories().filter(Boolean) // 过滤掉空值
   return {
     paths: categories.map(category => ({
-      params: { category },
+      params: { category: String(category) }, // 确保是字符串
     })),
     fallback: false,
   }

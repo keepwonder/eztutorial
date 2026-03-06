@@ -39,6 +39,9 @@ export function getAllPosts(): Post[] {
         slug: id,
         content,
         readingTime,
+        category: '其他', // 默认分类
+        tags: [],
+        excerpt: '',
         ...(matterResult.data as Omit<Post, 'id' | 'slug' | 'content' | 'readingTime'>),
       } as Post
     })
@@ -83,7 +86,7 @@ export async function getPostData(slug: string): Promise<Post> {
 
 export function getAllCategories() {
   const posts = getAllPosts()
-  const categories = new Set(posts.map(post => post.category))
+  const categories = new Set(posts.map(post => post.category).filter(Boolean))
   return Array.from(categories).sort()
 }
 
