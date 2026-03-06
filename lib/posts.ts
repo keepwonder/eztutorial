@@ -78,12 +78,17 @@ export async function getPostData(slug: string): Promise<Post> {
   const wordCount = matterResult.content.split(/\s+/).length
   const readingTime = Math.ceil(wordCount / 200)
 
+  const data = matterResult.data as Omit<Post, 'slug' | 'id' | 'content' | 'readingTime'>
+  
   return {
     slug,
     id: slug,
     content: contentHtml,
     readingTime,
-    ...(matterResult.data as Omit<Post, 'slug' | 'id' | 'content' | 'readingTime'>),
+    ...data,
+    category: data.category || '其他',
+    tags: data.tags || [],
+    excerpt: data.excerpt || '',
   } as Post
 }
 
