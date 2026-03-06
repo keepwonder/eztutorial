@@ -34,15 +34,18 @@ export function getAllPosts(): Post[] {
       const wordCount = content.split(/\s+/).length
       const readingTime = Math.ceil(wordCount / 200)
 
+      const data = matterResult.data as Omit<Post, 'id' | 'slug' | 'content' | 'readingTime'>
+      
       return {
         id,
         slug: id,
         content,
         readingTime,
-        category: '其他', // 默认分类
-        tags: [],
-        excerpt: '',
-        ...(matterResult.data as Omit<Post, 'id' | 'slug' | 'content' | 'readingTime'>),
+        ...data,
+        // 确保必填字段有值
+        category: data.category || '其他',
+        tags: data.tags || [],
+        excerpt: data.excerpt || '',
       } as Post
     })
 
