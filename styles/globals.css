@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 15, 23, 42;
-  --background-rgb: 254, 252, 232;
+  --paper: #f7f2e8;
+  --paper-soft: #fffdf8;
+  --ink: #151713;
+  --muted: #62685f;
+  --line: rgba(21, 23, 19, 0.14);
+  --emerald: #047a55;
+  --amber: #bd6b1b;
+  --clay: #8f4d35;
 }
 
 * {
@@ -21,58 +27,64 @@ body {
 }
 
 body {
-  background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(21, 23, 19, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 23, 19, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 18% 0%, rgba(4, 122, 85, 0.10), transparent 32%),
+    var(--paper);
+  background-size: 42px 42px, 42px 42px, auto, auto;
   min-height: 100vh;
 }
 
-/* Markdown Styles */
 .prose {
   max-width: none;
+  color: var(--ink);
 }
 
 .prose h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: 2rem 0 1rem;
-  color: #1e293b;
+  color: var(--ink);
 }
 
 .prose h2 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 650;
   margin: 1.5rem 0 0.75rem;
-  color: #334155;
-  border-bottom: 2px solid #eab308;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
   padding-bottom: 0.5rem;
 }
 
 .prose h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 650;
   margin: 1.25rem 0 0.5rem;
-  color: #475569;
+  color: var(--ink);
 }
 
 .prose p {
   margin: 1rem 0;
-  line-height: 1.8;
-  color: #334155;
+  line-height: 1.85;
+  color: #34372f;
 }
 
 .prose code {
-  background: #f1f5f9;
+  background: rgba(21, 23, 19, 0.06);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: 'Menlo', 'Monaco', monospace;
   font-size: 0.9em;
-  color: #dc2626;
+  color: var(--clay);
 }
 
 .prose pre {
-  background: #1e293b;
-  color: #f8fafc;
-  padding: 1.5rem;
-  border-radius: 12px;
+  background: #151713;
+  color: #fffdf8;
+  padding: 1.25rem;
+  border-radius: 8px;
   overflow-x: auto;
   margin: 1.5rem 0;
 }
@@ -84,11 +96,11 @@ body {
 }
 
 .prose blockquote {
-  border-left: 4px solid #eab308;
+  border-left: 3px solid var(--amber);
   padding-left: 1rem;
   margin: 1.5rem 0;
-  color: #64748b;
-  font-style: italic;
+  color: var(--muted);
+  font-style: normal;
 }
 
 .prose ul, .prose ol {
@@ -101,20 +113,20 @@ body {
 }
 
 .prose a {
-  color: #ca8a04;
+  color: var(--emerald);
   text-decoration: none;
-  border-bottom: 1px solid #eab308;
+  border-bottom: 1px solid rgba(4, 122, 85, 0.35);
   transition: all 0.2s;
 }
 
 .prose a:hover {
-  color: #a16207;
-  border-bottom-width: 2px;
+  color: #035f43;
+  border-bottom-color: #035f43;
 }
 
 .prose img {
   max-width: 100%;
-  border-radius: 12px;
+  border-radius: 8px;
   margin: 1.5rem 0;
 }
 
@@ -125,90 +137,30 @@ body {
 }
 
 .prose th, .prose td {
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--line);
   padding: 0.75rem;
   text-align: left;
 }
 
 .prose th {
-  background: #fef9c3;
+  background: rgba(21, 23, 19, 0.05);
   font-weight: 600;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Syntax Highlighting */
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0;
   background: transparent;
 }
 
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-title,
-.hljs-section,
-.hljs-doctag,
-.hljs-name,
-.hljs-strong {
-  font-weight: bold;
-  color: #c678dd;
+::-webkit-scrollbar-thumb {
+  background: rgba(21, 23, 19, 0.22);
+  border-radius: 8px;
 }
 
-.hljs-comment {
-  color: #5c6370;
-  font-style: italic;
-}
-
-.hljs-string,
-.hljs-title,
-.hljs-section,
-.hljs-built_in,
-.hljs-literal,
-.hljs-type,
-.hljs-addition,
-.hljs-tag,
-.hljs-quote,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
-  color: #98c379;
-}
-
-.hljs-meta,
-.hljs-subst,
-.hljs-symbol,
-.hljs-regexp,
-.hljs-attribute,
-.hljs-deletion,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-link,
-.hljs-bullet {
-  color: #e06c75;
-}
-
-.hljs-number,
-.hljs-params,
-.hljs-class,
-.hljs-attribute {
-  color: #d19a66;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 23, 19, 0.35);
 }

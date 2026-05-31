@@ -11,68 +11,60 @@ interface HomeProps {
 
 export default function Home({ posts, categories, tags }: HomeProps) {
   const recentPosts = posts.slice(0, 6)
+  const totalMinutes = posts.reduce((sum, p) => sum + p.readingTime, 0)
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="mb-12">
-        <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-200">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-              探索技术的无限可能
-            </h1>
-            <p className="text-lg text-slate-600 mb-6">
-              记录学习历程，分享技术见解，沉淀知识体系。
-              基于 Markdown 的个人博客，简洁而强大。
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link 
-                href="/categories" 
-                className="px-6 py-3 bg-yellow-500 text-white rounded-xl font-medium hover:bg-yellow-600 transition-colors"
-              >
-                浏览分类
-              </Link>
-              <Link 
-                href="/archive" 
-                className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-medium hover:bg-slate-200 transition-colors"
-              >
-                查看归档
-              </Link>
-            </div>
+      <section className="grid gap-8 border-b border-[rgba(21,23,19,0.14)] pb-8 lg:grid-cols-[minmax(0,0.92fr)_320px]">
+        <div>
+          <div className="mb-5 inline-flex rounded-[8px] border border-[rgba(21,23,19,0.14)] bg-[#fffdf8]/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-[#047a55]">
+            Kiang Notes
+          </div>
+          <h1 className="max-w-3xl text-4xl font-semibold leading-tight text-[#151713] md:text-5xl">
+            把技术实践整理成可以反复使用的笔记。
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[#62685f]">
+            这里记录 AI 编程、前端工程、工具搭建和产品实验。少一点模板叙事，多一点真实工作流。
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/archive" className="rounded-[8px] border border-[#151713] bg-[#151713] px-5 py-2.5 text-sm font-medium text-[#fffdf8] transition hover:-translate-y-0.5">
+              查看归档
+            </Link>
+            <Link href="/categories" className="rounded-[8px] border border-[rgba(21,23,19,0.18)] bg-[#fffdf8]/75 px-5 py-2.5 text-sm font-medium text-[#151713] transition hover:border-[#047a55] hover:text-[#047a55]">
+              浏览分类
+            </Link>
           </div>
         </div>
+
+        <aside className="grid gap-3 self-end rounded-[8px] border border-[rgba(21,23,19,0.14)] bg-[#fffdf8]/70 p-4">
+          <div className="flex items-baseline justify-between border-b border-[rgba(21,23,19,0.10)] pb-3">
+            <span className="text-sm text-[#62685f]">文章</span>
+            <strong className="text-2xl text-[#151713]">{posts.length}</strong>
+          </div>
+          <div className="flex items-baseline justify-between border-b border-[rgba(21,23,19,0.10)] pb-3">
+            <span className="text-sm text-[#62685f]">分类</span>
+            <strong className="text-2xl text-[#151713]">{categories.length}</strong>
+          </div>
+          <div className="flex items-baseline justify-between border-b border-[rgba(21,23,19,0.10)] pb-3">
+            <span className="text-sm text-[#62685f]">标签</span>
+            <strong className="text-2xl text-[#151713]">{tags.length}</strong>
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="text-sm text-[#62685f]">阅读量</span>
+            <strong className="text-2xl text-[#151713]">{Math.ceil(totalMinutes / 60)}h</strong>
+          </div>
+        </aside>
       </section>
 
-      {/* Stats */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-          <div className="text-3xl font-bold text-yellow-600">{posts.length}</div>
-          <div className="text-sm text-slate-500 mt-1">篇文章</div>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-          <div className="text-3xl font-bold text-blue-600">{categories.length}</div>
-          <div className="text-sm text-slate-500 mt-1">个分类</div>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-          <div className="text-3xl font-bold text-purple-600">{tags.length}</div>
-          <div className="text-sm text-slate-500 mt-1">个标签</div>
-        </div>
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 text-center">
-          <div className="text-3xl font-bold text-green-600">{Math.ceil(posts.reduce((sum, p) => sum + p.readingTime, 0) / 60)}</div>
-          <div className="text-sm text-slate-500 mt-1">小时内容</div>
-        </div>
-      </section>
-
-      {/* Recent Posts */}
-      <section>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-800">最新文章</h2>
-          <Link href="/archive" className="text-yellow-600 hover:text-yellow-700">
-            查看全部 →
+      <section className="pt-8">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-[#8f4d35]">最新文章</h2>
+          <Link href="/archive" className="text-sm font-medium text-[#047a55] hover:text-[#035f43]">
+            查看全部
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {recentPosts.map(post => (
             <PostCard key={post.id} post={post} />
           ))}
