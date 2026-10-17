@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/archive":{},"/categories/[category]":{},"/categories":{},"/tags/[tag]":{},"/tags":{},"/posts/[slug]":{},"/":{}}}
+{"version":1,"functions":{"/categories":{},"/archive":{},"/categories/[category]":{},"/tags/[tag]":{},"/posts/[slug]":{},"/tags":{},"/":{}}}

@@ -2,6 +2,8 @@
 title: "再见Chrome！我要去Tabbit了，深度使用感受分享"
 date: "2026-03-06"
 category: "技术"
+tags: ["AI 浏览器", "Tabbit", "Chrome", "工具评测"]
+excerpt: "电脑里装了 10 个浏览器，Chrome 依然占 65%。直到美团光年之外发布 Tabbit——用了两天后，我的比例可能要变成 80:20 了。"
 ---
 大家好，我是齐昂！
 

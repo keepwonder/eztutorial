@@ -4,6 +4,7 @@ date: '2026-03-06'
 category: '教程'
 tags: ['eztutorial', 'markdown', '开始']
 excerpt: 'EzTutorial 是一个基于 Markdown 的个人博客系统，支持分类、标签、代码高亮等特性。本文介绍如何使用 EzTutorial 发布内容。'
+draft: true
 ---
 
 # 欢迎使用 EzTutorial

@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout'
-import { getAllPostIds, getPostData, Post } from '../../lib/posts'
+import { getAllPostPaths, getPostData, Post } from '../../lib/posts'
 import { format } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import Link from 'next/link'
@@ -58,7 +58,7 @@ export default function PostPage({ post }: PostPageProps) {
         {/* Content */}
         <div className="bg-white rounded-2xl p-8 border border-slate-200">
           <div 
-            className="prose prose-slate max-w-none"
+            className="prose prose-slate max-w-[68ch] mx-auto"
             dangerouslySetInnerHTML={{ __html: post.content }} 
           />
         </div>
@@ -94,7 +94,7 @@ export default function PostPage({ post }: PostPageProps) {
 }
 
 export async function getStaticPaths() {
-  const paths = getAllPostIds()
+  const paths = getAllPostPaths()
   return {
     paths,
     fallback: false,

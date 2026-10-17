@@ -2,6 +2,8 @@ import Layout from '../components/Layout'
 import PostCard from '../components/PostCard'
 import { getAllPosts, getAllCategories, getAllTags } from '../lib/posts'
 import Link from 'next/link'
+import { format } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 interface HomeProps {
   posts: ReturnType<typeof getAllPosts>
@@ -11,7 +13,7 @@ interface HomeProps {
 
 export default function Home({ posts, categories, tags }: HomeProps) {
   const recentPosts = posts.slice(0, 6)
-  const totalMinutes = posts.reduce((sum, p) => sum + p.readingTime, 0)
+  const latestDate = posts[0]?.date
 
   return (
     <Layout>
@@ -50,8 +52,10 @@ export default function Home({ posts, categories, tags }: HomeProps) {
             <strong className="text-2xl text-[#151713]">{tags.length}</strong>
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-sm text-[#62685f]">阅读量</span>
-            <strong className="text-2xl text-[#151713]">{Math.ceil(totalMinutes / 60)}h</strong>
+            <span className="text-sm text-[#62685f]">最近更新</span>
+            <strong className="text-2xl text-[#151713]">
+              {latestDate ? format(new Date(latestDate), 'MM月dd日', { locale: zhCN }) : '—'}
+            </strong>
           </div>
         </aside>
       </section>
