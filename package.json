@@ -4,7 +4,7 @@
   "description": "个人 Markdown 博客平台",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generate-feeds.mjs",
     "start": "next start",
     "export": "next build && next export"
   },

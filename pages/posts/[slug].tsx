@@ -10,8 +10,14 @@ interface PostPageProps {
 }
 
 export default function PostPage({ post }: PostPageProps) {
+  const firstImage = post.content.match(/<img[^>]+src="([^"]+)"/)
   return (
-    <Layout title={post.title} description={post.excerpt}>
+    <Layout
+      title={post.title}
+      description={post.excerpt}
+      ogImage={firstImage ? firstImage[1] : undefined}
+      canonicalPath={`/posts/${post.slug}/`}
+    >
       <Head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" async></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />

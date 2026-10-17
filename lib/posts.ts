@@ -93,6 +93,11 @@ export function getAllPostPaths(): { params: { slug: string } }[] {
   })
 }
 
+// 外链图片统一注入懒加载 + 异步解码，避免首屏拉全量图与布局抖动
+function lazyLoadImages(html: string): string {
+  return html.replace(/<img\b(?![^>]*\bloading=)/g, '<img loading="lazy" decoding="async"')
+}
+
 export function getPostData(slug: string): Promise<Post> {
   const fileNames = fs.readdirSync(postsDirectory).filter(fileName => fileName.endsWith('.md'))
   // 优先按 slug 匹配，其次按文件名（id）匹配，保证新旧链接都能打开
@@ -112,7 +117,7 @@ export function getPostData(slug: string): Promise<Post> {
     .then(processedContent => ({
       slug,
       id: raw.id,
-      content: processedContent.toString(),
+      content: lazyLoadImages(processedContent.toString()),
       readingTime: estimateReadingTime(raw.content),
       ...data,
       category: data.category || '其他',
