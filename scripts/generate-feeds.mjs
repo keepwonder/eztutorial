@@ -72,3 +72,14 @@ fs.writeFileSync(
 )
 
 console.log(`[feeds] sitemap.xml (${posts.length} posts) + feed.xml generated into dist/`)
+
+// posts.json：给主站 kiang.website 构建期拉取渲染「最新文章」板块用
+const postsJson = posts.map(p => ({
+  slug: p.slug,
+  title: p.title,
+  date: p.date.toISOString().slice(0, 10),
+  excerpt: p.excerpt,
+  url: `${SITE_URL}/posts/${encodeURI(p.slug)}/`,
+}))
+fs.writeFileSync(path.join(outDir, 'posts.json'), JSON.stringify(postsJson, null, 2))
+console.log(`[feeds] posts.json (${postsJson.length} posts) generated into dist/`)
