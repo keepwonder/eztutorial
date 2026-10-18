@@ -132,14 +132,6 @@ export default function Layout({ children, title, description, ogImage, canonica
                   <span className="hidden sm:inline">搜索</span>
                   <kbd className="hidden md:inline rounded-sm border border-line px-1 text-meta leading-none py-0.5">⌘K</kbd>
                 </button>
-                <a
-                  href="https://kiang.website"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden sm:inline text-meta text-muted hover:text-emerald transition-colors"
-                >
-                  Kiang
-                </a>
                 {/* 移动端汉堡按钮 */}
                 <button
                   type="button"
