@@ -9,48 +9,53 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="group rounded-[8px] border border-[rgba(21,23,19,0.14)] bg-[#fffdf8]/82 p-5 transition hover:-translate-y-0.5 hover:border-[#047a55] hover:shadow-[0_18px_48px_rgba(43,36,24,0.12)]">
-      <div className="flex h-full flex-col">
-        <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[#62685f]">
-          <span className="rounded-[8px] border border-[rgba(21,23,19,0.14)] bg-[rgba(21,23,19,0.04)] px-2 py-1 font-medium text-[#8f4d35]">
-            {post.category}
-          </span>
-          <span>{format(new Date(post.date), 'yyyy年MM月dd日', { locale: zhCN })}</span>
-          <span>{post.readingTime} 分钟</span>
-        </div>
+    <article className="group flex h-full flex-col rounded-lg border border-line bg-surface p-lg transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-emerald hover:shadow-lift">
+      <div className="mb-sm flex flex-wrap items-center gap-x-sm gap-y-xs text-meta text-muted">
+        <span className="rounded-sm border border-line px-2 py-0.5 font-medium text-ink">
+          {post.category}
+        </span>
+        <time dateTime={post.date} className="tracking-wide">
+          {format(new Date(post.date), 'yyyy.MM.dd', { locale: zhCN })}
+        </time>
+        <span>{post.readingTime} 分钟</span>
+      </div>
 
-        <Link href={`/posts/${post.slug}/`}>
-          <h2 className="mb-3 text-lg font-semibold leading-snug text-[#151713] transition group-hover:text-[#047a55]">
-            {post.title}
-          </h2>
-        </Link>
+      <Link href={`/posts/${post.slug}/`}>
+        <h2 className="mb-sm font-display text-title font-bold leading-snug text-ink transition-colors group-hover:text-emerald">
+          {post.title}
+        </h2>
+      </Link>
 
-        <p className="mb-4 line-clamp-2 flex-1 text-sm leading-6 text-[#62685f]">
-          {post.excerpt}
-        </p>
+      <p className="mb-md line-clamp-3 text-body leading-normal text-muted">
+        {post.excerpt}
+      </p>
 
-        <div className="mb-4 flex flex-wrap gap-2">
+      {post.tags.length > 0 && (
+        <div className="mb-md flex flex-wrap gap-xs">
           {post.tags.map(tag => (
             <Link
               key={tag}
               href={`/tags/${tag}/`}
-              className="rounded-[8px] bg-[rgba(21,23,19,0.05)] px-2.5 py-1 text-xs text-[#62685f] transition hover:bg-[rgba(4,122,85,0.10)] hover:text-[#047a55]"
+              className="rounded-sm bg-mist px-2 py-0.5 text-meta text-muted transition-colors hover:text-emerald"
             >
               #{tag}
             </Link>
           ))}
         </div>
+      )}
 
-        <div className="flex items-center justify-between border-t border-[rgba(21,23,19,0.10)] pt-4">
-          <Link href={`/posts/${post.slug}/`} className="text-sm font-medium text-[#047a55] transition hover:text-[#035f43]">
-            阅读全文
-          </Link>
-          {post.modified && post.modified !== post.date && (
-            <span className="text-xs text-[#8b8f86]">
-              更新于 {format(new Date(post.modified), 'MM月dd日', { locale: zhCN })}
-            </span>
-          )}
-        </div>
+      <div className="mt-auto flex items-center justify-between border-t border-line pt-md">
+        <Link
+          href={`/posts/${post.slug}/`}
+          className="text-meta font-medium text-muted transition-colors group-hover:text-emerald"
+        >
+          阅读全文 ↗
+        </Link>
+        {post.modified && post.modified !== post.date && (
+          <span className="text-meta text-muted">
+            更新于 {format(new Date(post.modified), 'MM月dd日', { locale: zhCN })}
+          </span>
+        )}
       </div>
     </article>
   )

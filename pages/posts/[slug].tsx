@@ -23,38 +23,33 @@ export default function PostPage({ post }: PostPageProps) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
       </Head>
 
-      <article className="max-w-4xl mx-auto">
+      <article className="mx-auto max-w-[68ch]">
         {/* Header */}
-        <header className="bg-white rounded-2xl p-8 border border-slate-200 mb-8">
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <Link 
-              href={`/categories/${post.category}/`}
-              className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-medium hover:bg-yellow-200 transition-colors"
-            >
+        <header className="mb-xl border-b border-line pb-xl">
+          <div className="mb-sm flex flex-wrap items-center gap-x-sm gap-y-xs text-meta text-muted">
+            <Link href={`/categories/${post.category}/`} className="rounded-sm border border-line px-2 py-0.5 font-medium text-ink transition-colors hover:border-emerald hover:text-emerald">
               {post.category}
             </Link>
             {post.tags.map(tag => (
-              <Link 
-                key={tag}
-                href={`/tags/${tag}/`}
-                className="text-sm text-slate-500 hover:text-yellow-600 transition-colors"
-              >
+              <Link key={tag} href={`/tags/${tag}/`} className="transition-colors hover:text-emerald">
                 #{tag}
               </Link>
             ))}
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+          <h1 className="mb-md font-display text-title font-bold leading-tight text-ink">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
-            <span>发布于 {format(new Date(post.date), 'yyyy年MM月dd日', { locale: zhCN })}</span>
-            <span>·</span>
+          <div className="flex flex-wrap items-center gap-sm text-meta text-muted">
+            <time dateTime={post.date}>
+              发布于 {format(new Date(post.date), 'yyyy年MM月dd日', { locale: zhCN })}
+            </time>
+            <span aria-hidden="true">·</span>
             <span>{post.readingTime} 分钟阅读</span>
             {post.modified && post.modified !== post.date && (
               <>
-                <span>·</span>
+                <span aria-hidden="true">·</span>
                 <span>更新于 {format(new Date(post.modified), 'yyyy年MM月dd日', { locale: zhCN })}</span>
               </>
             )}
@@ -62,24 +57,19 @@ export default function PostPage({ post }: PostPageProps) {
         </header>
 
         {/* Content */}
-        <div className="bg-white rounded-2xl p-8 border border-slate-200">
-          <div 
-            className="prose prose-slate max-w-[68ch] mx-auto"
-            dangerouslySetInnerHTML={{ __html: post.content }} 
-          />
-        </div>
+        <div className="prose" dangerouslySetInnerHTML={{ __html: post.content }} />
 
         {/* Navigation */}
-        <div className="mt-8 flex justify-between">
-          <Link 
-            href="/" 
-            className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors"
+        <div className="mt-xl flex justify-between border-t border-line pt-lg">
+          <Link
+            href="/"
+            className="rounded-md border border-line px-md py-2 text-meta font-medium text-ink transition-colors hover:border-emerald hover:text-emerald"
           >
             ← 返回首页
           </Link>
-          <Link 
-            href="/archive" 
-            className="px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-600 transition-colors"
+          <Link
+            href="/archive"
+            className="rounded-md bg-ink px-md py-2 text-meta font-medium text-paper transition-transform hover:-translate-y-0.5"
           >
             浏览更多文章
           </Link>
