@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import SearchDialog from './SearchDialog'
 
 interface LayoutProps {
@@ -18,6 +18,7 @@ export default function Layout({ children, title, description, ogImage, canonica
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const themeBtnRef = useRef<HTMLButtonElement>(null)
   const navLinks = [
     { href: '/', label: '首页' },
     { href: '/categories', label: '分类' },
@@ -46,11 +47,36 @@ export default function Layout({ children, title, description, ogImage, canonica
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  function currentTheme(): 'light' | 'dark' {
+  const currentTheme = useCallback((): 'light' | 'dark' => {
     const attr = document.documentElement.getAttribute('data-theme')
     if (attr === 'light' || attr === 'dark') return attr
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  }
+  }, [])
+
+  const syncThemeLabel = useCallback(() => {
+    const btn = themeBtnRef.current
+    if (!btn) return
+    const dark = currentTheme() === 'dark'
+    btn.setAttribute('aria-label', dark ? '切换浅色模式' : '切换深色模式')
+    btn.setAttribute('title', dark ? '切换浅色模式' : '切换深色模式')
+  }, [currentTheme])
+
+  // 首屏 label 按 effective theme 同步；无保存偏好时跟随系统变化
+  useEffect(() => {
+    syncThemeLabel()
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const onChange = () => {
+      let saved: string | null = null
+      try {
+        saved = localStorage.getItem('kiang-theme')
+      } catch {
+        /* ignore */
+      }
+      if (!saved) syncThemeLabel()
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [syncThemeLabel])
 
   function toggleTheme() {
     const next = currentTheme() === 'dark' ? 'light' : 'dark'
@@ -60,6 +86,7 @@ export default function Layout({ children, title, description, ogImage, canonica
     } catch {
       /* ignore */
     }
+    syncThemeLabel()
   }
 
   return (
@@ -105,6 +132,7 @@ export default function Layout({ children, title, description, ogImage, canonica
 
               <div className="flex items-center gap-3">
                 <button
+                  ref={themeBtnRef}
                   type="button"
                   onClick={toggleTheme}
                   aria-label="切换深色模式"
