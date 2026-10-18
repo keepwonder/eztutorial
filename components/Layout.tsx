@@ -46,6 +46,22 @@ export default function Layout({ children, title, description, ogImage, canonica
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
+  function currentTheme(): 'light' | 'dark' {
+    const attr = document.documentElement.getAttribute('data-theme')
+    if (attr === 'light' || attr === 'dark') return attr
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  }
+
+  function toggleTheme() {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark'
+    document.documentElement.setAttribute('data-theme', next)
+    try {
+      localStorage.setItem('kiang-theme', next)
+    } catch {
+      /* ignore */
+    }
+  }
+
   return (
     <>
       <Head>
@@ -53,6 +69,12 @@ export default function Layout({ children, title, description, ogImage, canonica
         <meta name="description" content={description || 'Kiang 的技术笔记、实践记录与工具教程'} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={favicon} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('kiang-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();",
+          }}
+        />
         <link rel="alternate" type="application/rss+xml" title="EzTutorial RSS" href="/feed.xml" />
         <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
         {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -68,8 +90,8 @@ export default function Layout({ children, title, description, ogImage, canonica
 
       <div className="min-h-screen flex flex-col">
         <header className="sticky top-0 z-50 border-b border-line site-header backdrop-blur-md">
-          <div className="max-w-shell mx-auto px-4 sm:px-6">
-            <div className="flex items-center justify-between h-16">
+          <div className="max-w-shell mx-auto px-5 sm:px-8">
+            <div className="flex items-center justify-between h-14 sm:h-16">
               <Link href="/" className="flex items-center gap-3">
                 <span className="grid h-9 w-9 place-items-center rounded-md border border-ink bg-ink font-display text-body font-bold text-paper">T</span>
                 <span className="font-display text-body font-bold tracking-normal text-ink">EzTutorial</span>
@@ -82,6 +104,21 @@ export default function Layout({ children, title, description, ogImage, canonica
               </nav>
 
               <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label="切换深色模式"
+                  title="切换深色模式"
+                  className="theme-toggle grid h-9 w-9 place-items-center rounded-md border border-line text-muted transition-colors hover:border-emerald hover:text-emerald"
+                >
+                  <svg className="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4.2" />
+                    <path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" />
+                  </svg>
+                  <svg className="theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   onClick={() => setSearchOpen(true)}
@@ -126,7 +163,7 @@ export default function Layout({ children, title, description, ogImage, canonica
           {/* 移动端下拉菜单 */}
           {menuOpen && (
             <nav className="md:hidden border-t border-line bg-paper">
-              <div className="max-w-shell mx-auto px-4 py-2 flex flex-col">
+              <div className="max-w-shell mx-auto px-5 py-2 flex flex-col">
                 {navLinks.map(link => (
                   <Link
                     key={link.href}
@@ -142,18 +179,19 @@ export default function Layout({ children, title, description, ogImage, canonica
           )}
         </header>
 
-        <main className="flex-1 max-w-shell mx-auto px-4 sm:px-6 py-2xl w-full">
+        <main className="flex-1 max-w-shell mx-auto px-5 sm:px-8 py-2xl w-full">
           {children}
         </main>
 
         <footer className="border-t border-line">
-          <div className="max-w-shell mx-auto px-4 sm:px-6 py-7">
+          <div className="max-w-shell mx-auto px-5 sm:px-8 py-7">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-meta text-muted">
               <div className="flex items-center gap-3">
                 <span className="grid h-7 w-7 place-items-center rounded-sm border border-line font-display text-meta font-bold text-ink">T</span>
                 <span>EzTutorial - Kiang 技术笔记</span>
               </div>
               <div className="flex items-center gap-6">
+                <a href="https://kiang.website" target="_blank" rel="noopener noreferrer" className="hover:text-emerald transition-colors">主站 ↗</a>
                 <Link href="/feed.xml" className="hover:text-emerald transition-colors">RSS 订阅</Link>
                 <Link href="/sitemap.xml" className="hover:text-emerald transition-colors">Sitemap</Link>
                 <span>© 2026 Kiang</span>

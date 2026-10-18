@@ -289,3 +289,46 @@ input[type='search']::-webkit-search-decoration {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted);
 }
+
+/* ---------- 手动主题：data-theme 优先于系统偏好 ---------- */
+:root[data-theme="dark"] {
+  --ink: #e8eae2;
+  --muted: #9ba093;
+  --line: rgba(232, 234, 226, 0.16);
+  --emerald: #3fbb85;
+  --emerald-strong: #5ed19c;
+  --amber: #e0954a;
+  --paper: #12140f;
+  --surface: #12140f;
+  --surface-blur: rgba(24, 26, 20, 0.88);
+  --overlay: rgba(0, 0, 0, 0.58);
+  --mist: #23261e;
+  --shadow: 0 22px 70px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="light"] {
+    --ink: #151713;
+    --muted: #62685f;
+    --line: rgba(21, 23, 19, 0.14);
+    --emerald: #047a55;
+    --emerald-strong: #035f43;
+    --amber: #bd6b1b;
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --surface-blur: rgba(255, 255, 255, 0.9);
+    --overlay: rgba(21, 23, 19, 0.42);
+    --mist: #f1f1ef;
+    --shadow: 0 22px 70px rgba(43, 36, 24, 0.14);
+  }
+}
+
+.theme-toggle .theme-icon-sun { display: none; }
+.theme-toggle .theme-icon-moon { display: block; }
+[data-theme="dark"] .theme-toggle .theme-icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle .theme-icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .theme-toggle .theme-icon-sun { display: block; }
+  html:not([data-theme="light"]) .theme-toggle .theme-icon-moon { display: none; }
+}
