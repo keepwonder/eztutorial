@@ -34,6 +34,8 @@ const posts = fs
       title: data.title || id,
       date: data.date ? new Date(data.date) : null,
       excerpt: data.excerpt || excerptOf(content),
+      category: data.category || '其他',
+      tags: Array.isArray(data.tags) ? data.tags : [],
       draft: Boolean(data.draft),
     }
   })
@@ -79,6 +81,8 @@ const postsJson = posts.map(p => ({
   title: p.title,
   date: p.date.toISOString().slice(0, 10),
   excerpt: p.excerpt,
+  category: p.category,
+  tags: p.tags,
   url: `${SITE_URL}/posts/${encodeURI(p.slug)}/`,
 }))
 fs.writeFileSync(path.join(outDir, 'posts.json'), JSON.stringify(postsJson, null, 2))

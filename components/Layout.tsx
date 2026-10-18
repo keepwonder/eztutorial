@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import SearchDialog from './SearchDialog'
 
 interface LayoutProps {
   children: ReactNode
@@ -16,6 +17,7 @@ export default function Layout({ children, title, description, ogImage, canonica
   const siteTitle = 'EzTutorial - Kiang 技术笔记'
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const navLinks = [
     { href: '/', label: '首页' },
     { href: '/categories', label: '分类' },
@@ -24,6 +26,25 @@ export default function Layout({ children, title, description, ogImage, canonica
   ]
   const favicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%23151713'/><text x='32' y='42' text-anchor='middle' font-size='30' font-family='Georgia,serif' font-weight='700' fill='%23ffffff'>T</text></svg>"
   const canonicalUrl = canonicalPath ? `${SITE_URL}${canonicalPath}` : undefined
+
+  // 全局快捷键：⌘K / Ctrl+K 打开搜索；"/" 在非输入状态下也能唤起
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null
+      const typing =
+        target &&
+        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen(v => !v)
+      } else if (e.key === '/' && !typing) {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   return (
     <>
@@ -46,7 +67,7 @@ export default function Layout({ children, title, description, ogImage, canonica
       </Head>
 
       <div className="min-h-screen flex flex-col">
-        <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
+        <header className="sticky top-0 z-50 border-b border-line site-header backdrop-blur-md">
           <div className="max-w-shell mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-3">
@@ -60,7 +81,20 @@ export default function Layout({ children, title, description, ogImage, canonica
                 ))}
               </nav>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                  aria-label="搜索文章（快捷键 ⌘K）"
+                  className="flex items-center gap-2 rounded-md border border-line px-2.5 py-1.5 text-meta text-muted transition-colors hover:border-emerald hover:text-emerald"
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.6" />
+                    <path d="M10.8 10.8L14 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                  </svg>
+                  <span className="hidden sm:inline">搜索</span>
+                  <kbd className="hidden md:inline rounded-sm border border-line px-1 text-meta leading-none py-0.5">⌘K</kbd>
+                </button>
                 <a
                   href="https://kiang.website"
                   target="_blank"
@@ -120,15 +154,16 @@ export default function Layout({ children, title, description, ogImage, canonica
                 <span>EzTutorial - Kiang 技术笔记</span>
               </div>
               <div className="flex items-center gap-6">
-                <Link href="/" className="hover:text-emerald transition-colors">首页</Link>
-                <Link href="/archive" className="hover:text-emerald transition-colors">归档</Link>
-                <Link href="/feed.xml" className="hover:text-emerald transition-colors">RSS</Link>
-                <a href="https://kiang.website" target="_blank" rel="noopener noreferrer" className="hover:text-emerald transition-colors">Kiang</a>
+                <Link href="/feed.xml" className="hover:text-emerald transition-colors">RSS 订阅</Link>
+                <Link href="/sitemap.xml" className="hover:text-emerald transition-colors">Sitemap</Link>
+                <span>© 2026 Kiang</span>
               </div>
             </div>
           </div>
         </footer>
       </div>
+
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }

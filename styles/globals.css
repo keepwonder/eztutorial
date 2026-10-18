@@ -20,6 +20,8 @@
   /* 面 */
   --paper: #ffffff;
   --surface: #ffffff;
+  --surface-blur: rgba(255, 255, 255, 0.9);
+  --overlay: rgba(21, 23, 19, 0.42);
   --mist: #f1f1ef;
   --shadow: 0 22px 70px rgba(43, 36, 24, 0.14);
 
@@ -125,6 +127,15 @@ a {
 ::selection {
   background: var(--emerald);
   color: var(--paper);
+}
+
+/* ---------- 结构工具类（CSS 变量颜色无法用 Tailwind 透明度修饰符，显式定义） ---------- */
+.site-header {
+  background: var(--surface-blur);
+}
+
+.search-overlay {
+  background: var(--overlay);
 }
 
 /* ---------- 文章正文排版 ---------- */
@@ -251,6 +262,13 @@ a {
   border: 0;
   border-top: 1px solid var(--line);
   margin: var(--sp-xl) 0;
+}
+
+/* 隐藏原生 search 清除按钮（浏览器默认蓝色 × 与设计不符） */
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* ---------- 滚动条 ---------- */
