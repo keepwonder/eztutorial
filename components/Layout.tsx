@@ -120,7 +120,6 @@ export default function Layout({ children, title, description, ogImage, canonica
           <div className="max-w-shell mx-auto px-5 sm:px-8">
             <div className="flex items-center justify-between h-14 sm:h-16">
               <Link href="/" className="flex items-center gap-3">
-                <span className="grid h-9 w-9 place-items-center rounded-md border border-ink bg-ink font-display text-body font-bold text-paper">T</span>
                 <span className="font-display text-body font-bold tracking-normal text-ink">EzTutorial</span>
               </Link>
 
@@ -207,7 +206,6 @@ export default function Layout({ children, title, description, ogImage, canonica
           <div className="max-w-shell mx-auto px-5 sm:px-8 py-7">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-meta text-muted">
               <div className="flex items-center gap-3">
-                <span className="grid h-7 w-7 place-items-center rounded-sm border border-line font-display text-meta font-bold text-ink">T</span>
                 <span>EzTutorial - Kiang 技术笔记</span>
               </div>
               <div className="flex items-center gap-6">
