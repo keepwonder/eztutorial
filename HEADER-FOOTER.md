@@ -1,6 +1,6 @@
 # Header / Footer · EzTutorial
 
-> 综合规范：[../../SITE-CONSISTENCY.md](../../SITE-CONSISTENCY.md)
+> 综合规范：[../../SITE-CONSISTENCY.md](../docs/rules/SITE-CONSISTENCY.md)
 > 状态：✅ 已对齐（2026-10-18）
 
 ## Header
